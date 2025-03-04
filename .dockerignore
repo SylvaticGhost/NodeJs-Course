@@ -9,6 +9,7 @@ node_modules
 /build
 /dist
 /volumes
+/sql
 
 /.idea
 /.vscode
@@ -17,6 +18,7 @@ node_modules
 
 *.md
 
+db-scripts.sql
 docker-compose.yml
 Dockerfile
 .dockerignore
