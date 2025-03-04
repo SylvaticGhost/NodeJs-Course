@@ -3,10 +3,14 @@ FROM node:18-alpine
 WORKDIR /usr/src/app
 
 COPY package*.json ./
-RUN npm ci --only=production
+
+RUN npm ci
+
+COPY prisma ./prisma/
+
+RUN npx prisma generate
 
 COPY . .
 
 EXPOSE 3000
-
-CMD ["node", "server.js"]
+CMD ["sh", "-c", "npx prisma migrate deploy && node app.js"]
