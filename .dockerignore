@@ -1,0 +1,26 @@
+node_modules
+.git
+
+*.log
+
+.env
+.env.local
+
+/build
+/dist
+/volumes
+
+/.idea
+/.vscode
+/.vs
+.editorconfig
+
+*.md
+
+docker-compose.yml
+Dockerfile
+.dockerignore
+.gitignore
+
+# Include only the package.json file from the root directory
+!package.json
