@@ -13,6 +13,8 @@ model User {
     passwordHash String @map("password_hash") @db.VarChar(64)
     passwordSalt String @map("password_salt") @db.VarChar(128)
     notes        Note[]
+
+    @@map("users")
 }
 
 model Note {
@@ -22,5 +24,6 @@ model Note {
     createdAt DateTime @map("created_at")
     updatedAt DateTime @map("updated_at")
     owner     User     @relation(fields: [ownerId], references: [id])
-}
 
+    @@map("notes")
+}

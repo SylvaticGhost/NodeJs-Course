@@ -1,5 +1,11 @@
 ### GET request to example server
-GET https://examples.http-client.intellij.net/get
-    ?generated-in=JetBrains Rider
+POST http://localhost:3000/api/register
+accept: application/json
+content-type: application/json
+accept: */*
+accept-encoding: gzip, deflate, br
 
-###
+{
+  "username": "User1",
+  "password": "dsfsdfsdfsdfsf"
+}
