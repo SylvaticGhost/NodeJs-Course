@@ -19,6 +19,7 @@ services:
       - db
     environment:
       - DATABASE_URL=postgres://postgres:password@db:5432
+      - JWT_SECRET=supersecretkey123
 
   nginx:
     image: nginx:latest

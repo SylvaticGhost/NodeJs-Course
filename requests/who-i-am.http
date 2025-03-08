@@ -1,0 +1,6 @@
+### GET request to example server
+GET http://localhost:3000/api/who-am-i
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjIyZGM3M2QyLWMwZmItNGU0My1hNzgzLTg0MmM5ZjNmY2MzYiIsInVzZXJuYW1lIjoiVXNlcjEiLCJpYXQiOjE3NDE0NjcwODksImV4cCI6MTc0MTQ3MDY4OX0.HIsH5UJw1teWaFof7qIxmmtus5fiyujEuASeiNccgzs
+accept: application/json
+accept: */*
+accept-encoding: gzip, deflate, br
