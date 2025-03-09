@@ -1,4 +1,4 @@
-### GET request to example server
+### Register
 POST http://localhost:3000/api/register
 accept: application/json
 content-type: application/json
