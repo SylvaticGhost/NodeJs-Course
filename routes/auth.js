@@ -3,6 +3,7 @@ const {authenticateToken} = require("../lib/authService");
 const {registerUser, loginUser} = require("../lib/userService");
 
 const router = express.Router();
+
 router.post('/register', async (req, res) => {
     const result = await registerUser(req.body)
     res.status(result.code).json(result)

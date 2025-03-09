@@ -1,38 +1,44 @@
 ﻿const express = require('express');
 const router = express.Router();
-const multer = require('multer');
-const path = require('path');
-const fs = require('fs');
 const {authenticateToken} = require("../lib/authService");
-const {validateNote} = require("../lib/schemas");
 const {validationResult} = require("express-validator");
+const {createNote} = require("../lib/services/noteService");
+const {Result} = require("../lib/result");
 const upload = require('../lib/storage').upload;
-const debug = require('debug')('app:notes-api');
 
 router.post('/',
     authenticateToken,
-    validateNote,
     upload.fields([
     {name: 'note', maxCount: 1},
     {name: 'images', maxCount: 10}
-]), function (req, res, next) {
+]), async function (req, res, next) {
     console.log('creating the notes');
 
     const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-        return res.status(400).json({ errors: errors.array() });
-    }
+    if (!errors.isEmpty())
+        return Result.badRequest(errors.array().join(', ')).asEndpointResponse(res);
 
-    const body = req.body;
-    const noteFile = req.files['note'] ? req.files['note'][0] : null;
-    if(!noteFile) {
-        return res.status(400).json({error: 'Note file is required'});
-    }
+    const title = req.body.title;
+    if(!title)
+        return Result.badRequest('Title is required').asEndpointResponse(res);
+
+    const noteFile = req.files['note'][0] ?? null;
+    if(!noteFile)
+        return Result.badRequest('Note file is required').asEndpointResponse();
+
     try {
-        console.log('reading file');
-        const fileContent = fs.readFileSync(noteFile.path, 'utf-8');
-        console.log('content', fileContent);
-        res.json({message: 'File uploaded successfully!'});
+        const createNoteDto = {
+            username: req.user.username,
+            title: title,
+            filePath: noteFile.path,
+            images: (req.files['images'] ?? []).map(image => image.path)
+        }
+
+        console.info(createNoteDto);
+
+        const result = await createNote(createNoteDto);
+
+        return result.asEndpointResponse(res);
     }
     catch (err) {
         console.log(err)
