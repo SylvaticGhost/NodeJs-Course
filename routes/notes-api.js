@@ -22,7 +22,7 @@ router.post('/',
     if(!title)
         return Result.badRequest('Title is required').asEndpointResponse(res);
 
-    const noteFile = req.files['note'][0] ?? null;
+    const noteFile = req.files['note'][0];
     if(!noteFile)
         return Result.badRequest('Note file is required').asEndpointResponse();
 
