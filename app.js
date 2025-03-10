@@ -25,8 +25,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
-app.use('/notes', notesRouter);
-app.use('/api/notes', notesApiRouter);
+app.use('/note', notesRouter);
+app.use('/api/note', notesApiRouter);
 app.use('/api', authRouter);
 
 // catch 404 and forward to error handler

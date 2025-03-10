@@ -14,7 +14,7 @@ services:
     ports:
       - "3000:3000"
     volumes:
-      - ./volumes/app:/usr/src/app/data
+      - ./volumes:/usr/src/app/volumes
     depends_on:
       - db
     environment:

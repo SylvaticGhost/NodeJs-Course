@@ -8,8 +8,7 @@ datasource db {
 }
 
 model User {
-    id           String @id @default(uuid())
-    username     String @unique @db.VarChar(20)
+    username     String @id @db.VarChar(20)
     passwordHash String @map("password_hash") @db.VarChar(64)
     passwordSalt String @map("password_salt") @db.VarChar(128)
     notes        Note[]
@@ -19,11 +18,11 @@ model User {
 
 model Note {
     id        String   @id @default(uuid())
-    ownerId   String   @map("owner_id")
+    owner     String   @map("owner")
     title     String   @db.VarChar(30)
     createdAt DateTime @map("created_at")
     updatedAt DateTime @map("updated_at")
-    owner     User     @relation(fields: [ownerId], references: [id])
+    user      User     @relation(fields: [owner], references: [username])
 
     @@map("notes")
 }
