@@ -39,6 +39,13 @@ class Note {
     get noteUrl() {
         return `${Url}/${this.id}/note.md`;
     }
+
+    get dto() {
+        return {
+            ...this,
+            url: this.noteUrl,
+        }
+    }
 }
 
 module.exports = {

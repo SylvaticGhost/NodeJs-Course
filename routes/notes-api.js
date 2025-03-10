@@ -54,9 +54,8 @@ router.delete('/:id',
         const noteId = req.params.id;
         const username = req.user.username;
 
-        if (!noteId) {
+        if (!noteId)
             return Result.badRequest('Note ID is required').asEndpointResponse(res);
-        }
 
         const result = await removeNote(noteId, username);
         return result.asEndpointResponse(res);
