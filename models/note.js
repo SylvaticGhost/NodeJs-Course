@@ -40,6 +40,10 @@ class Note {
         return `${Url}/${this.id}/note.md`;
     }
 
+    get pageUrl() {
+        return `${process.env.URL ?? 'http://localhost:3000'}/note/${this.id}`;
+    }
+
     get dto() {
         return {
             ...this,
