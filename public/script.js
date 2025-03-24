@@ -24,13 +24,27 @@ document.addEventListener("DOMContentLoaded", function () {
     // Завантажуємо нотатки, якщо є username
     const username = localStorage.getItem("username");
     if (username && currentPath === "/index.html") {
-        const authPage = document.getElementById("authPage");
-        if (authPage) authPage.style.display = "none";
-        const notesPage = document.getElementById("notesPage");
-        if (notesPage) notesPage.style.display = "block";
-        const header = document.querySelector(".header");
-        if (header) header.style.display = "flex";
-        loadNotes();
+        const notes = getNoteLists();
+        let list = document.getElementById("noteList");
+
+        if (!list) {
+            console.log("Could not find notesList element");
+            return;
+        }
+
+        const div = document.createElement("div");
+        notes.then((result) => {
+            result.forEach((note) => {
+                console.log(note);
+                const noteElement = document.createElement("div");
+                noteElement.classList.add("note-preview");
+                noteElement.innerHTML = `
+                        <div>${note.title}</div> `;
+                noteElement.addEventListener("click", (e) => window.location.href = '/note/' + note.id);
+                div.appendChild(noteElement);
+            });
+            list.append(div);
+        });
     }
 });
 
@@ -170,6 +184,14 @@ async function signUp() {
             errorElement.style.display = "block";
         }
     }
+}
+
+async function getNoteLists() {
+    const token = localStorage.getItem("token");
+    if (!token) return;
+    const result = await sendRequest("http://localhost/api/note/user", null, token);
+    console.log(result);
+    return result.value;
 }
 
 // Логіка нотаток
