@@ -4,10 +4,17 @@ services:
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: password
+      POSTGRES_DB: myapp
     volumes:
       - ./volumes/db:/var/lib/postgresql/data
+      - ./db-init/db-scripts.sql:/docker-entrypoint-initdb.d/init.sql
     ports:
       - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
 
   app:
     build: .
@@ -16,9 +23,10 @@ services:
     volumes:
       - ./volumes:/usr/src/app/volumes
     depends_on:
-      - db
+      db:
+        condition: service_healthy
     environment:
-      - DATABASE_URL=postgres://postgres:password@db:5432
+      - DATABASE_URL=postgres://postgres:password@db:5432/myapp
       - JWT_SECRET=supersecretkey123
 
   nginx:
@@ -28,6 +36,7 @@ services:
     volumes:
       - ./nginx.conf:/etc/nginx/conf.d/default.conf
       - ./volumes/note-buckets:/usr/share/nginx/note-buckets
+      - ./public:/usr/src/app/public
     depends_on:
       - app
 

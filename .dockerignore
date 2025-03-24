@@ -19,7 +19,7 @@ node_modules
 
 *.md
 
-db-scripts.sql
+db-init/db-scripts.sql
 docker-compose.yml
 Dockerfile
 .dockerignore
