@@ -4,10 +4,8 @@ services:
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: password
-      POSTGRES_DB: myapp
     volumes:
       - ./volumes/db:/var/lib/postgresql/data
-      - ./db-init/db-scripts.sql:/docker-entrypoint-initdb.d/init.sql
     ports:
       - "5432:5432"
     healthcheck:
@@ -26,7 +24,7 @@ services:
       db:
         condition: service_healthy
     environment:
-      - DATABASE_URL=postgres://postgres:password@db:5432/myapp
+      - DATABASE_URL=postgres://postgres:password@db:5432
       - JWT_SECRET=supersecretkey123
 
   nginx:
