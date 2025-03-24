@@ -8,17 +8,21 @@ datasource db {
 }
 
 model User {
-    username     String @id // Змінено з Int на String, бо varchar(20)
-    passwordHash String @map("password_hash") // Відповідність назві колонки
-    passwordSalt String @map("password_salt") // Відповідність назві колонки
-    notes        Note[] // Зв’язок із notes
+    username     String @id @db.VarChar(20)
+    passwordHash String @map("password_hash") @db.VarChar(64)
+    passwordSalt String @map("password_salt") @db.VarChar(128)
+    notes        Note[]
+
+    @@map("users")
 }
 
 model Note {
-    id        String   @id // uuid у SQL
-    owner     String // varchar(20)
-    title     String // varchar(30)
-    createdAt DateTime @map("created_at") // Відповідність назві
-    updatedAt DateTime @map("updated_at") // Відповідність назві
+    id        String   @id @default(uuid())
+    owner     String   @map("owner")
+    title     String   @db.VarChar(30)
+    createdAt DateTime @map("created_at")
+    updatedAt DateTime @map("updated_at")
     user      User     @relation(fields: [owner], references: [username])
+
+    @@map("notes")
 }
