@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Авторизація</title>
+    <link rel="stylesheet" href="/stylesheets/styles.css">
+    <script defer src="/script.js"></script>
+</head>
+<body>
+<div class="auth-container">
+    <div class="tabs">
+        <div class="tab active" onclick="showForm('login')">Вхід</div>
+        <div class="tab" onclick="showForm('signup')">Реєстрація</div>
+    </div>
+    <div id="login-form" class="form active">
+        <input type="text" id="login-username" placeholder="Логін">
+        <input type="password" id="login-password" placeholder="Пароль">
+        <button onclick="login()">Увійти</button>
+        <p id="login-error" class="error-message"></p>
+    </div>
+    <div id="signup-form" class="form">
+        <input type="text" id="signup-username" placeholder="Логін">
+        <input type="password" id="signup-password" placeholder="Пароль">
+        <button onclick="signUp()">Зареєструватися</button>
+        <p id="signup-error" class="error-message"></p>
+    </div>
+</div>
+</body>
+</html>

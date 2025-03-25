@@ -1,8 +1,8 @@
 ﻿const express = require('express');
 const router = express.Router();
-const {authenticateToken} = require("../lib/authService");
+const {authenticateToken} = require("../lib/services/authService");
 const {validationResult} = require("express-validator");
-const {createNote, removeNote} = require("../lib/services/noteService");
+const {createNote, removeNote, getNotesForUser} = require("../lib/services/noteService");
 const {Result} = require("../lib/result");
 const upload = require('../lib/storage').upload;
 
@@ -61,5 +61,11 @@ router.delete('/:id',
         return result.asEndpointResponse(res);
     }
 );
+
+router.get("/user", authenticateToken, async function (req, res) {
+    const username = req.user.username;
+    const result = await getNotesForUser(username);
+    return result.asEndpointResponse(res);
+})
 
 module.exports = router;

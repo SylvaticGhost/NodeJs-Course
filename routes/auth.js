@@ -1,6 +1,6 @@
 const express = require('express');
-const {authenticateToken} = require("../lib/authService");
-const {registerUser, loginUser} = require("../lib/userService");
+const {authenticateToken} = require("../lib/services/authService");
+const {registerUser, loginUser} = require("../lib/services/userService");
 
 const router = express.Router();
 
