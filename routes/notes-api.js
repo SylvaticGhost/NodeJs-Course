@@ -1,6 +1,6 @@
 ﻿const express = require('express');
 const router = express.Router();
-const {authenticateToken} = require("../lib/authService");
+const {authenticateToken} = require("../lib/services/authService");
 const {validationResult} = require("express-validator");
 const {createNote, removeNote, getNotesForUser} = require("../lib/services/noteService");
 const {Result} = require("../lib/result");
