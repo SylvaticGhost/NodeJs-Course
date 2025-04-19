@@ -1,0 +1,11 @@
+extends layout
+
+block content
+    h1= note.title
+    h4= note.owner
+    textarea#(name="content")
+
+
+block append scripts
+    script(src='/note-content-script.js')
+

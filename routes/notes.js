@@ -1,10 +1,13 @@
-﻿const express = require('express');
+﻿const express = require("express");
 const router = express.Router();
-const multer = require('multer');
-const path = require('path');
+const { getNote } = require("../lib/services/noteService");
 
-router.get('/', function(req, res, next) {
-  res.send('respond with a resource');
+router.get("/:noteId", async function (req, res, next) {
+    const noteId = req.params.noteId;
+    console.log(`noteId=${noteId}`);
+    const result = await getNote(noteId);
+    console.info(result);
+    return res.render("note", { note: result.value });
 });
 
 module.exports = router;
