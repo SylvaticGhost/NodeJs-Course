@@ -1,3 +1,5 @@
+const API_URL = "http://localhost:3000";
+
 // Перевірка токену для index.html
 document.addEventListener("DOMContentLoaded", function () {
     const currentPath = window.location.pathname;
@@ -40,7 +42,10 @@ document.addEventListener("DOMContentLoaded", function () {
                 noteElement.classList.add("note-preview");
                 noteElement.innerHTML = `
                         <div>${note.title}</div> `;
-                noteElement.addEventListener("click", (e) => window.location.href = '/note/' + note.id);
+                noteElement.addEventListener(
+                    "click",
+                    (e) => (window.location.href = "/note/" + note.id)
+                );
                 div.appendChild(noteElement);
             });
             list.append(div);
@@ -79,29 +84,34 @@ function showForm(formType) {
 function validateInput(username, password) {
     const minLength = 3;
     const maxLength = 20;
-    return username.length >= minLength && username.length <= maxLength &&
-        password.length >= minLength && password.length <= maxLength;
+    return (
+        username.length >= minLength &&
+        username.length <= maxLength &&
+        password.length >= minLength &&
+        password.length <= maxLength
+    );
 }
 
 // Відправка запитів
-async function sendRequest(url, data, token = null) {
+async function sendRequest(path, data, token = null) {
     try {
         const headers = { "Content-Type": "application/json" };
         if (token) headers["Authorization"] = `Bearer ${token}`;
-        const response = await fetch(url, {
+        const response = await fetch(API_URL + path, {
             method: data ? "POST" : "GET",
             headers,
             body: data ? JSON.stringify(data) : null,
         });
         return await response.json();
     } catch (error) {
+        console.log("Error:", error);
         return { code: 500, message: "Server connection error" };
     }
 }
 
 // Отримання імені користувача
 async function getWhoAmI(token) {
-    const result = await sendRequest("http://localhost/api/who-am-i", null, token);
+    const result = await sendRequest("/api/who-am-i", null, token);
     if (result.username) return result.username;
     throw new Error(result.message || "Помилка отримання імені користувача");
 }
@@ -120,7 +130,7 @@ async function login() {
         return;
     }
 
-    const result = await sendRequest("http://localhost/api/login", { username, password });
+    const result = await sendRequest("/api/login", { username, password });
     if (result.code === 200) {
         const token = result.value.token;
         localStorage.setItem("token", token);
@@ -156,9 +166,13 @@ async function signUp() {
         return;
     }
 
-    const registerResult = await sendRequest("http://localhost/api/register", { username, password });
+    const registerResult = await sendRequest("/api/register", {
+        username,
+        password,
+    });
     if (registerResult.code === 201) {
-        const loginResult = await sendRequest("http://localhost/api/login", { username, password });
+        //TODO: @layron11 to reuse login func
+        const loginResult = await sendRequest("/api/login", { username, password });
         if (loginResult.code === 200) {
             const token = loginResult.value.token;
             localStorage.setItem("token", token);
@@ -168,7 +182,8 @@ async function signUp() {
                 window.location.href = "/index.html";
             } catch (error) {
                 if (errorElement) {
-                    errorElement.textContent = error.message || "Помилка отримання даних користувача";
+                    errorElement.textContent =
+                        error.message || "Помилка отримання даних користувача";
                     errorElement.style.display = "block";
                 }
             }
@@ -189,7 +204,7 @@ async function signUp() {
 async function getNoteLists() {
     const token = localStorage.getItem("token");
     if (!token) return;
-    const result = await sendRequest("http://localhost/api/note/user", null, token);
+    const result = await sendRequest("/api/note/user", null, token);
     console.log(result);
     return result.value;
 }
@@ -247,10 +262,12 @@ function shareNote() {
     const title = document.getElementById("noteTitle").value;
     const content = document.getElementById("noteContent").value;
     if (navigator.share) {
-        navigator.share({
-            title: title,
-            text: content,
-        }).catch(error => console.log("Помилка при шарінгу:", error));
+        navigator
+            .share({
+                title: title,
+                text: content,
+            })
+            .catch((error) => console.log("Помилка при шарінгу:", error));
     } else {
         alert("Ваш браузер не підтримує спільний доступ до нотаток.");
     }
