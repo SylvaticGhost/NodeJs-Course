@@ -1,12 +1,29 @@
 ﻿const express = require("express");
 const router = express.Router();
 const { getNote } = require("../lib/services/noteService");
+const { authenticateToken } = require("../lib/services/authService");
+
+router.get("/create", authenticateToken, function (req, res, next) {
+    return res.render("create-note", {
+        username: req.user.username,
+        title: "Create Note",
+    });
+});
 
 router.get("/:noteId", async function (req, res, next) {
     const noteId = req.params.noteId;
     console.log(`noteId=${noteId}`);
     const result = await getNote(noteId);
     console.info(result);
+
+    if (!result.value) {
+        console.log("Note not found");
+        return res.status(404).render("error", {
+            message: "Note not found",
+            error: { status: 404, stack: "" },
+        });
+    }
+
     return res.render("note", { note: result.value });
 });
 

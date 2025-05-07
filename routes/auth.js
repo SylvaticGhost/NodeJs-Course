@@ -1,20 +1,27 @@
-const express = require('express');
-const {authenticateToken} = require("../lib/services/authService");
-const {registerUser, loginUser} = require("../lib/services/userService");
+const express = require("express");
+const { authenticateToken } = require("../lib/services/authService");
+const { registerUser, loginUser } = require("../lib/services/userService");
 
 const router = express.Router();
 
-router.post('/register', async (req, res) => {
-    const result = await registerUser(req.body)
-    res.status(result.code).json(result)
+router.post("/register", async (req, res) => {
+    const result = await registerUser(req.body);
+    res.status(result.code).json(result);
 });
 
-router.post('/login', async (req, res) => {
-    const result = await loginUser(req.body)
-    res.status(result.code).json(result)
+router.post("/login", async (req, res) => {
+    const result = await loginUser(req.body);
+    if (result.value.token)
+        res.cookie("auth_token", result.value.token, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === "production",
+            maxAge: 3600000,
+        });
+
+    res.status(result.code).json(result);
 });
 
-router.get('/who-am-i', authenticateToken, (req, res) => {
+router.get("/who-am-i", authenticateToken, (req, res) => {
     res.json({ username: req.user.username });
 });
 

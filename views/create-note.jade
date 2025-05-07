@@ -1,0 +1,32 @@
+extends layout
+
+block content
+  h1 Create New Note
+
+  form#noteForm(enctype="multipart/form-data")
+    div.form-group
+      label(for="title") Title
+      input#title(type="text" name="title" placeholder="Note Title" required)
+
+    div.form-group
+      label(for="markdown-editor") Content (Markdown)
+      div.editor-container
+        textarea#markdown-editor(name="content" placeholder="Write your note in markdown..." rows="10")
+        div#markdown-preview.preview-pane
+
+    div.form-group
+      label(for="image-upload") Images
+      div.image-upload-container
+        div#dropzone.dropzone
+          p Drag & drop images here or
+          input#image-upload(type="file" name="images" multiple accept="image/*")
+          button#select-images(type="button") Select Images
+
+      div#image-preview.image-previews
+
+    div.button-group
+      button#save-button(type="submit") Save Note
+      button(type="button" onclick="window.location.href='/'") Cancel
+
+block append scripts
+  script(src='/note-create-script.js')

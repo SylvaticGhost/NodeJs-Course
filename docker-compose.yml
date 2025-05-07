@@ -28,6 +28,7 @@ services:
       - JWT_SECRET=supersecretkey123
 
   nginx:
+    user: root
     image: nginx:latest
     ports:
       - "80:80"
