@@ -8,21 +8,34 @@ datasource db {
 }
 
 model User {
-    username     String @id @db.VarChar(20)
-    passwordHash String @map("password_hash") @db.VarChar(64)
-    passwordSalt String @map("password_salt") @db.VarChar(128)
+    username     String        @id @db.VarChar(20)
+    passwordHash String        @map("password_hash") @db.VarChar(64)
+    passwordSalt String        @map("password_salt") @db.VarChar(128)
     notes        Note[]
+    interactions Interaction[]
 
     @@map("users")
 }
 
 model Note {
-    id        String   @id @default(uuid())
-    owner     String   @map("owner")
-    title     String   @db.VarChar(30)
-    createdAt DateTime @map("created_at")
-    updatedAt DateTime @map("updated_at")
-    user      User     @relation(fields: [owner], references: [username])
+    id           String        @id @default(uuid())
+    owner        String        @map("owner")
+    title        String        @db.VarChar(30)
+    createdAt    DateTime      @map("created_at")
+    updatedAt    DateTime      @map("updated_at")
+    user         User          @relation(fields: [owner], references: [username])
+    interactions Interaction[]
 
     @@map("notes")
+}
+
+model Interaction {
+    username     String   @map("username")
+    noteId       String   @map("note_id")
+    interactedAt DateTime @map("interacted_at")
+    note         Note     @relation(fields: [noteId], references: [id])
+    user         User     @relation(fields: [username], references: [username])
+
+    @@id([username, noteId, interactedAt])
+    @@map("note_interactions")
 }

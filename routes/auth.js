@@ -14,8 +14,9 @@ router.post("/login", async (req, res) => {
     if (result.value.token)
         res.cookie("auth_token", result.value.token, {
             httpOnly: true,
-            secure: process.env.NODE_ENV === "production",
+            secure: false,
             maxAge: 3600000,
+            path: '/',
         });
 
     res.status(result.code).json(result);
