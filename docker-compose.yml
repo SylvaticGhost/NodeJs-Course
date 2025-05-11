@@ -21,8 +21,7 @@ services:
     volumes:
       - ./volumes:/usr/src/app/volumes
     depends_on:
-      db:
-        condition: service_healthy
+      - db
     environment:
       - DATABASE_URL=postgres://postgres:password@db:5432
       - JWT_SECRET=supersecretkey123

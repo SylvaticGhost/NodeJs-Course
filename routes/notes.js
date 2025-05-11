@@ -5,15 +5,15 @@ const { authenticateToken } = require("../lib/services/authService");
 
 router.get("/create", authenticateToken, function (req, res, next) {
     return res.render("create-note", {
-        username: req.user.username,
+        username: req.user?.username,
         title: "Create Note",
     });
 });
 
-router.get("/:noteId", async function (req, res, next) {
+router.get("/:noteId",authenticateToken, async function (req, res, next) {
     const noteId = req.params.noteId;
-    console.log(`noteId=${noteId}`);
-    const result = await getNote(noteId);
+    console.log(`noteId=${noteId}, username=${req.user?.username}`);
+    const result = await getNote(noteId, req.user?.username);
     console.info(result);
 
     if (!result.value) {

@@ -18,11 +18,40 @@
             <h1>Добрий день!!</h1>
             <div class="note-container-list">
                 <div class="note-header">
-                    <h2>Ваші нотатки:</h2>
+                    <h2>Ваші нотатки</h2>
+                    <div class="search-container">
+                        <input type="text" id="searchNotes" placeholder="Пошук нотаток..." />
+                        <button id="searchButton">🔍</button>
+                    </div>
+                    <div class="filter-container">
+                        <div class="filter-options">
+                            <span>Сортувати за:</span>
+                            <div class="filter-option-buttons">
+                                <button class="filter-option active" data-filter="createdAt">
+                                    Створено
+                                </button>
+                                <button class="filter-option" data-filter="updatedAt">
+                                    Оновлено
+                                </button>
+                                <button class="filter-option" data-filter="interactedAt">
+                                    Взаємодія
+                                </button>
+                            </div>
+                        </div>
+                        <button id="orderSwitch">Порядок: ⬆️</button>
+                    </div>
                 </div>
                 <div id="noteList"></div>
+                <div id="paginationContainer" class="pagination-container"></div>
             </div>
-            <a href="http://localhost/note/create" class="create-note-btn">Створити нотатку</a>
+            <button
+                onclick="(() => {
+                window.location.href = '/note/create'
+           })()"
+                class="create-note-btn"
+            >
+                Створити нотатку
+            </button>
         </main>
         <footer>
             <h3>
@@ -32,5 +61,27 @@
                 Київ - 2025
             </h3>
         </footer>
+        <script>
+            const filterButtons = document.querySelectorAll(".filter-option");
+            const orderSwitch = document.getElementById("orderSwitch");
+
+            filterButtons.forEach((button) => {
+                button.addEventListener("click", () => {
+                    filterButtons.forEach((btn) => btn.classList.remove("active"));
+                    button.classList.add("active");
+                    const selectedFilter = button.dataset.filter;
+                    console.log(`Filter selected: ${selectedFilter}`);
+                });
+            });
+
+            orderSwitch.addEventListener("click", () => {
+                const currentOrder = orderSwitch.textContent.includes("⬆️")
+                    ? "ascending"
+                    : "descending";
+                const newOrder = currentOrder === "ascending" ? "descending" : "ascending";
+                orderSwitch.textContent = `Порядок: ${newOrder === "ascending" ? "⬆️" : "⬇️"}`;
+                console.log(`Order switched to: ${newOrder}`);
+            });
+        </script>
     </body>
 </html>
