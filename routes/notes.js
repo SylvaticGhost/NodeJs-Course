@@ -24,7 +24,9 @@ router.get("/:noteId",authenticateToken, async function (req, res, next) {
         });
     }
 
-    return res.render("note", { note: result.value });
+    const isUserOwner = result.value.owner === req.user?.username;
+    console.log(`isUserOwner=${isUserOwner}, username=${req.user?.username}, owner=${result.value.owner}`);
+    return res.render("note", { note: result.value, isUserOwner: isUserOwner });
 });
 
 module.exports = router;
