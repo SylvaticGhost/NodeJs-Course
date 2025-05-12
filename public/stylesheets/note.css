@@ -1,0 +1,45 @@
+.note-container {
+  max-width: 800px;
+  margin: 50px auto;
+  padding: 20px;
+}
+
+.note-card {
+  background-color: #fff8dc;
+  border: 1px solid #f0e68c;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(255, 223, 0, 0.2);
+  padding: 30px;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.note-title {
+  font-size: 2rem;
+  color: #b8860b;
+  margin-bottom: 10px;
+}
+
+.note-author {
+  font-size: 1rem;
+  color: #daa520;
+  margin-bottom: 20px;
+}
+
+.note-textarea {
+  width: 100%;
+  min-height: 400px;
+  border: 1px solid #f0e68c;
+  border-radius: 8px;
+  padding: 15px;
+  font-size: 1rem;
+  font-family: 'Courier New', monospace;
+  resize: vertical;
+  background-color: #fffacd;
+  box-sizing: border-box;
+}
+
+.note-textarea:focus {
+  border-color: #ffd700;
+  outline: none;
+  background-color: #fff;
+}

@@ -1,10 +1,14 @@
 extends layout
 
 block content
-    h1= note.title
-    h4 Author: #{note.owner}
-    textarea#content(name="content")
+    .note-container
+        .note-card
+            h1.note-title= note.title
+            h4.note-author Author: #{note.owner}
+            textarea#content.note-textarea(name="content", rows="15")
+
+block append styles
+    link(rel="stylesheet", href="/styles/note.css")
 
 block append scripts
     script(src='/note-content-script.js')
-
