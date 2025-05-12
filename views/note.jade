@@ -1,12 +1,24 @@
 extends layout
 
 block content
-    h1= note.title
-    if isUserOwner
-        button#edit-button(type="button") Edit
-    h4 Author: #{note.owner}
-    textarea#content(name="content")
+    .note-container
+        .note-card
+            h1.note-title= note.title
+            if isUserOwner
+                button#edit-button(type="button") Edit
+                button#delete-button(type="button", style="margin-left:10px; color: red;") Delete
+            h4.note-author Author: #{note.owner}
+            textarea#content.note-textarea(name="content", rows="15")
+
+block append styles
+    link(rel="stylesheet", href="/styles/note.css")
 
 block append scripts
+    script.
+        window.noteData = {
+            id: "#{note.id}",
+            title: "#{note.title}",
+            owner: "#{note.owner}"
+        };
     script(src='/note-content-script.js')
 
