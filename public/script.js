@@ -1,6 +1,5 @@
 const API_URL = "http://localhost:3000";
 
-// Перевірка токену для index.html
 document.addEventListener("DOMContentLoaded", function () {
     const currentPath = window.location.pathname;
     if (currentPath === "/" || currentPath === "/index.html") {
@@ -40,6 +39,8 @@ document.addEventListener("DOMContentLoaded", function () {
 function logout() {
     localStorage.removeItem("token");
     localStorage.removeItem("username");
+    localStorage.removeItem("loggetAt");
+    document.cookie = "auth_token=; Max-Age=0; path=/;";
     window.location.href = "/auth.html";
 }
 
@@ -84,6 +85,7 @@ async function sendRequest(path, data, token = null) {
             method: data ? "POST" : "GET",
             headers,
             body: data ? JSON.stringify(data) : null,
+            credentials: 'include',
         });
         return await response.json();
     } catch (error) {
