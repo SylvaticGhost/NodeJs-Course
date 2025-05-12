@@ -14,17 +14,18 @@ const authRouter = require("./routes/auth");
 console.log("starting app.js");
 const app = express();
 
+app.set("trust proxy", 1);
+app.set("views", path.join(__dirname, "views"));
+app.set("view engine", "jade");
+
 app.use(
     cors({
         origin: "http://localhost",
-        methods: ["GET", "POST"],
+        methods: ["GET", "POST", "PUT", "PATCH"],
         allowedHeaders: ["Content-Type", "Authorization"],
         credentials: true
     })
 );
-
-app.set("views", path.join(__dirname, "views"));
-app.set("view engine", "jade");
 
 app.use(logger("dev"));
 app.use(express.json());

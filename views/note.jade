@@ -2,6 +2,8 @@ extends layout
 
 block content
     h1= note.title
+    if isUserOwner
+        button#edit-button(type="button") Edit
     h4 Author: #{note.owner}
     textarea#content(name="content")
 

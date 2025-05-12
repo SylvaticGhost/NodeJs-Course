@@ -8,8 +8,6 @@ router.use(optionalAuthenticate);
 router.get("/", function (req, res, next) {
     if (req.user) {
         res.sendFile(path.join(__dirname, "../public/index.html"));
-    } else if (verifyToken(req.cookies.token)) {
-        res.sendFile(path.join(__dirname, "../public/index.html"));
     } else {
         res.sendFile(path.join(__dirname, "../public/auth.html"));
     }
