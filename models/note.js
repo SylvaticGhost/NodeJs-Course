@@ -36,6 +36,10 @@ class Note {
         return `${Bucket}/${this.id}`;
     }
 
+    get realBucketLocation() {
+        return `volumes/note-buckets/${this.id}`;
+    }
+
     get noteUrl() {
         return `${Url}/${this.id}/note.md`;
     }

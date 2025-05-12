@@ -2,6 +2,31 @@ document.addEventListener("DOMContentLoaded", function () {
     loadNoteText();
 });
 
+document.addEventListener('DOMContentLoaded', function() {
+    const deleteBtn = document.getElementById('delete-button');
+    if (deleteBtn) {
+        deleteBtn.addEventListener('click', async function() {
+            if (!confirm('Are you sure you want to delete this note?')) return;
+            const noteId = window.noteData.id;
+            try {
+                const res = await fetch(`/api/note/${noteId}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                });
+                if (res.ok) {
+                    window.location.href = '/'; // Redirect to home or notes list
+                } else {
+                    alert('Failed to delete note');
+                }
+            } catch (e) {
+                alert('Error deleting note');
+            }
+        });
+    }
+});
+
 async function loadNoteText() {
     console.log("loading text");
     try {

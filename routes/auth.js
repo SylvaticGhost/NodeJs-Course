@@ -12,7 +12,15 @@ router.post("/register", async (req, res) => {
 router.post("/login", async (req, res) => {
     const result = await loginUser(req.body);
     console.info('Login result:', result);
-    if (result.value.token)
+
+    if(result.code !== 200)
+    {
+        res.status(result.code).json(result);
+        return;
+    }
+
+
+    if (result.value?.token)
     {
         res.cookie("auth_token", result.value.token, {
             httpOnly: true,
