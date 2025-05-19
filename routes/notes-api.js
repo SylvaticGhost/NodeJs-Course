@@ -26,10 +26,7 @@ router.patch("/:id", authenticateToken,
             ...params
         }
 
-        console.info('updateNoteDto', updateNoteDto);
-
         const result = await updateNote(updateNoteDto);
-        console.info(result)
         return result ? result.asEndpointResponse(res) : Result.internalError("Internal server error");
     });
 
@@ -71,8 +68,6 @@ router.post(
             images: (req.files["images"] ?? []).map((image) => image.path),
         };
 
-        console.info(createNoteDto);
-
         try {
             const result = await createNote(createNoteDto);
 
@@ -103,23 +98,8 @@ router.get("/user", authenticateToken, async function (req, res) {
 router.put("/search", authenticateToken, async function (req, res) {
     try {
         const searchOptions = NoteSearchOptions.fromJson(req.body);
-
         searchOptions.username = req.user.username;
-
-        // Log the search request for debugging
-        console.log("Note search request:", {
-            username: req.user.username,
-            filter: searchOptions.filter,
-            order: searchOptions.order,
-            page: searchOptions.page,
-            pageSize: searchOptions.pageSize,
-            text: searchOptions.text,
-        });
-
-        // Perform the search
         const result = await searchNotes(searchOptions);
-
-        // Return the search results
         return result.asEndpointResponse(res);
     } catch (error) {
         console.error("Error during note search:", error);

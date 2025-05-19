@@ -2,6 +2,7 @@
 
 const Url = 'http://localhost/volume';
 const Bucket = 'volumes/note-buckets';
+
 class Note {
     id;
     owner;

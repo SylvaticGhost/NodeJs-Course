@@ -11,14 +11,12 @@ router.post("/register", async (req, res) => {
 
 router.post("/login", async (req, res) => {
     const result = await loginUser(req.body);
-    console.info('Login result:', result);
 
     if(result.code !== 200)
     {
         res.status(result.code).json(result);
         return;
     }
-
 
     if (result.value?.token)
     {
